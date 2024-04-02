@@ -70,3 +70,45 @@ async function resolvePromisses(a){
         }       
     })
 }
+
+
+function converterPlanilhaSelecionadaParaJSON() {
+    const inputArquivo = document.createElement('input');
+    inputArquivo.type = 'file';
+
+    
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const content = e.target.result;
+            const linhas = content.split('\n');
+            const headers = linhas[0].trim().split('\t'); // Assume que os cabeçalhos estão separados por tabulação
+
+            const jsonResult = [];
+
+            for (let i = 1; i < linhas.length; i++) {
+                const valores = linhas[i].trim().split('\t');
+                const item = {};
+
+                for (let j = 0; j < headers.length; j++) {
+                    item[headers[j]] = valores[j];
+                }
+
+                jsonResult.push(item);
+            }
+
+            console.log(jsonResult); // Aqui você pode fazer o que quiser com o JSON resultante
+        };
+
+        reader.readAsText(arquivo);
+    });
+
+    inputArquivo.click();
+}
+
+
+converterPlanilhaSelecionadaParaJSON();
+
+
+inputArquivo.addEventListener('change', function(e) {
+        const arquivo = e.target.files[0];
